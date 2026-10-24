@@ -1,5 +1,17 @@
 # 赚钱逻辑全景图 · PTC 模式 / 闭环工坊 / 模式市场 / 超级树 / 认知区
 
+**在线地址：<https://abner678.github.io/atlas/>**
+
+| 页面 | 地址 |
+|---|---|
+| 全景图（PTC 星图） | https://abner678.github.io/atlas/ |
+| 超级树（16 逻辑 × 5 层） | https://abner678.github.io/atlas/tree.html |
+| 认知区（100 条，带来源分级） | https://abner678.github.io/atlas/knowledge.html |
+
+纯静态、零依赖、无构建步骤，由 GitHub Pages 托管（分支 `main` / 根目录）。本地直接双击 `index.html` 也能跑。
+
+---
+
 一个纯静态、无构建依赖的研究型交互页：把 16 种赚钱逻辑做成一张可拖拽的物理星图，把每一种逻辑拆成可调参数的商业闭环，再把闭环变成可用虚拟资金投资的「模式资产」。
 
 ## 新增：认知区（knowledge.html）
