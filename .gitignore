@@ -1,0 +1,13 @@
+# 开发截图（10 MB+，不进仓库）
+shots/
+*.lnk
+
+# 依赖与临时
+node_modules/
+.dsh-office-*/
+*.log
+
+# 系统
+Thumbs.db
+.DS_Store
+desktop.ini

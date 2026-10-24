@@ -1,0 +1,434 @@
+/* =========================================================
+   PTC 模式 · 物理体系图
+   独立覆盖层样式：不改变纸感主页，只在进入时切换“夜间星图”
+   ========================================================= */
+
+.ptc{
+  --p-bg:#05070b;
+  --p-bg-2:#0a0f16;
+  --p-ink:#eef3f7;
+  --p-mut:#8b98aa;
+  --p-dim:#5b6675;
+  --p-line:rgba(255,255,255,.10);
+  --p-line-2:rgba(255,255,255,.18);
+  --p-lime:#d8f15a;
+  --p-panel:rgba(10,15,22,.92);
+  --p-radius:18px;
+  position:fixed;
+  inset:0;
+  z-index:10000;
+  overflow:hidden;
+  color:var(--p-ink);
+  background:var(--p-bg);
+  font-family:var(--sans);
+  opacity:0;
+  visibility:hidden;
+  transition:opacity .38s ease,visibility .38s;
+}
+.ptc.is-open{opacity:1;visibility:visible}
+.ptc *{box-sizing:border-box}
+body.ptc-open{overflow:hidden}
+
+.ptc-canvas{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:block;
+  touch-action:none;
+  cursor:grab;
+}
+.ptc-canvas.is-panning{cursor:grabbing}
+.ptc-canvas.is-node{cursor:pointer}
+
+/* 顶部与底部的暗角，让画布边缘沉下去 */
+.ptc-grad{
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    linear-gradient(to bottom,rgba(5,7,11,.92) 0%,rgba(5,7,11,0) 18%,rgba(5,7,11,0) 78%,rgba(5,7,11,.9) 100%),
+    radial-gradient(ellipse at 50% 45%,transparent 45%,rgba(5,7,11,.55) 100%);
+}
+
+/* ---------- 顶栏 ---------- */
+.ptc-head{
+  position:absolute;top:0;left:0;right:0;z-index:6;
+  display:flex;align-items:center;gap:14px;
+  padding:14px 20px;
+  pointer-events:none;
+}
+.ptc-head > *{pointer-events:auto}
+
+.ptc-back,.ptc-tool,.ptc-close{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  height:36px;padding:0 13px;
+  border:1px solid var(--p-line);
+  border-radius:10px;
+  background:rgba(255,255,255,.035);
+  color:var(--p-mut);
+  font-size:12px;line-height:1;
+  transition:color .2s,border-color .2s,background .2s,transform .2s;
+}
+.ptc-back:hover,.ptc-tool:hover,.ptc-close:hover{
+  color:var(--p-ink);border-color:var(--p-line-2);background:rgba(255,255,255,.07);
+}
+.ptc-back svg{width:14px;height:14px}
+.ptc-back span{white-space:nowrap}
+
+.ptc-brand{display:flex;align-items:center;gap:11px;min-width:0;margin-right:auto}
+.ptc-mark{
+  position:relative;width:34px;height:34px;flex:0 0 auto;
+  border-radius:50%;
+  background:conic-gradient(from 210deg,#d8f15a,#ff7a52,#5ea8ea,#b184e8,#d8f15a);
+  box-shadow:0 0 22px rgba(216,241,90,.35);
+  animation:ptc-spin 14s linear infinite;
+}
+.ptc-mark::after{
+  content:"";position:absolute;inset:5px;border-radius:50%;
+  background:#080c12;
+  box-shadow:inset 0 0 10px rgba(0,0,0,.8);
+}
+.ptc-mark i{
+  position:absolute;inset:13px;z-index:1;border-radius:50%;
+  background:var(--p-lime);
+  box-shadow:0 0 10px var(--p-lime);
+}
+@keyframes ptc-spin{to{transform:rotate(360deg)}}
+.ptc-brand b{
+  display:block;font-size:15px;font-weight:700;letter-spacing:.04em;line-height:1.2;
+}
+.ptc-brand em{
+  display:block;margin-top:2px;
+  color:var(--p-mut);font-style:normal;font-size:9.5px;letter-spacing:.16em;white-space:nowrap;
+}
+.ptc-head-actions{display:flex;align-items:center;gap:7px}
+.ptc-count{
+  margin-right:4px;color:var(--p-dim);font-size:10.5px;font-variant-numeric:tabular-nums;white-space:nowrap;
+}
+.ptc-close{width:36px;padding:0;font-size:19px;font-weight:300;color:var(--p-ink)}
+
+/* ---------- 左侧搜索 / 筛选 / 图例 ---------- */
+.ptc-left{
+  position:absolute;top:72px;left:20px;z-index:5;
+  width:270px;display:flex;flex-direction:column;gap:10px;
+}
+.ptc-search{
+  display:flex;align-items:center;gap:8px;
+  height:38px;padding:0 11px;
+  border:1px solid var(--p-line);
+  border-radius:11px;
+  background:rgba(10,15,22,.72);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  transition:border-color .2s,box-shadow .2s;
+}
+.ptc-search:focus-within{border-color:rgba(216,241,90,.55);box-shadow:0 0 0 3px rgba(216,241,90,.10)}
+.ptc-search svg{width:14px;height:14px;flex:0 0 auto;color:var(--p-dim)}
+.ptc-search input{
+  flex:1;min-width:0;border:0;background:transparent;outline:0;
+  color:var(--p-ink);font-size:12px;
+}
+.ptc-search input::placeholder{color:var(--p-dim)}
+.ptc-search kbd{
+  border-color:var(--p-line);background:rgba(255,255,255,.05);color:var(--p-dim);
+  font-family:var(--mono);font-size:9px;height:18px;min-width:18px;
+}
+
+.ptc-chips{display:flex;flex-wrap:wrap;gap:5px}
+.ptc-chip{
+  display:inline-flex;align-items:center;gap:5px;
+  height:28px;padding:0 10px;
+  border:1px solid var(--p-line);border-radius:999px;
+  background:rgba(255,255,255,.03);
+  color:var(--p-mut);font-size:10.5px;letter-spacing:.02em;
+  transition:all .2s;
+}
+.ptc-chip i{width:6px;height:6px;border-radius:50%;background:currentColor;display:block}
+.ptc-chip:hover{color:var(--p-ink);border-color:var(--p-line-2)}
+.ptc-chip.on{
+  color:#0b0f14;background:var(--p-lime);border-color:var(--p-lime);font-weight:650;
+}
+.ptc-chip[data-family="A"] i{background:#ff7a52}
+.ptc-chip[data-family="B"] i{background:#45c08c}
+.ptc-chip[data-family="C"] i{background:#5ea8ea}
+.ptc-chip[data-family="D"] i{background:#b184e8}
+.ptc-chip.on i{background:#0b0f14}
+
+.ptc-legend{
+  display:flex;flex-direction:column;gap:5px;
+  margin-top:2px;padding:11px 12px;
+  border:1px solid rgba(255,255,255,.07);border-radius:12px;
+  background:rgba(8,12,18,.55);
+  color:var(--p-dim);font-size:10px;line-height:1.5;
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+.ptc-legend b{color:var(--p-mut);font-weight:600;font-size:10px;letter-spacing:.08em}
+.ptc-legend .row{display:flex;align-items:center;gap:6px}
+.ptc-lg-dot{width:7px;height:7px;border-radius:50%;background:#ff7a52;flex:0 0 auto}
+.ptc-lg-ring{width:8px;height:8px;border-radius:50%;border:1px solid var(--p-lime);background:transparent;flex:0 0 auto}
+.ptc-lg-dash{width:11px;height:1px;border-top:1px dashed rgba(255,255,255,.45);flex:0 0 auto}
+
+/* ---------- 缩放控件 ---------- */
+.ptc-zoom{
+  position:absolute;right:20px;bottom:22px;z-index:5;
+  display:flex;align-items:center;gap:1px;
+  padding:3px;border:1px solid var(--p-line);border-radius:10px;
+  background:rgba(10,15,22,.78);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+.ptc-zoom button{
+  width:30px;height:30px;border:0;border-radius:7px;
+  background:transparent;color:var(--p-mut);
+  font-size:15px;line-height:1;display:grid;place-items:center;
+  transition:background .2s,color .2s;
+}
+.ptc-zoom button:hover{background:rgba(255,255,255,.07);color:var(--p-ink)}
+.ptc-zoom button.wide{width:auto;padding:0 10px;font-size:10.5px;letter-spacing:.02em}
+.ptc-zoom .sep{width:1px;height:18px;background:var(--p-line);margin:0 2px}
+.ptc-zoom span{
+  min-width:40px;text-align:center;color:var(--p-dim);
+  font-size:9.5px;font-variant-numeric:tabular-nums;
+}
+
+/* ---------- 底部提示 ---------- */
+.ptc-foot{
+  position:absolute;left:50%;bottom:22px;z-index:5;
+  transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  color:var(--p-dim);font-size:10px;letter-spacing:.03em;
+  text-align:center;pointer-events:none;
+}
+.ptc-foot b{color:var(--p-mut);font-weight:500}
+
+/* ---------- 右侧详情面板 ---------- */
+.ptc-panel{
+  position:absolute;right:20px;top:72px;bottom:74px;z-index:7;
+  width:366px;max-width:calc(100% - 40px);
+  display:flex;flex-direction:column;
+  border:1px solid var(--p-line);
+  border-radius:20px;
+  background:var(--p-panel);
+  box-shadow:0 40px 80px -30px #000;
+  backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
+  overflow:hidden;
+  transform:translateX(18px);opacity:0;
+  transition:transform .32s cubic-bezier(.2,.8,.2,1),opacity .28s;
+}
+.ptc-panel[hidden]{display:none}
+.ptc-panel.is-in{transform:none;opacity:1}
+.ptc-panel-head{
+  position:relative;flex:0 0 auto;
+  padding:18px 20px 14px;
+  border-bottom:1px solid var(--p-line);
+  background:linear-gradient(to bottom,color-mix(in srgb,var(--accent) 12%,transparent),transparent);
+}
+.ptc-panel-head .kicker{
+  display:flex;align-items:center;gap:7px;
+  color:var(--accent);font-size:9.5px;letter-spacing:.16em;font-weight:650;
+}
+.ptc-panel-head .kicker i{width:6px;height:6px;border-radius:50%;background:var(--accent);display:block}
+.ptc-panel-head h2{
+  margin-top:8px;font-size:21px;line-height:1.3;font-weight:700;letter-spacing:-.01em;
+  font-family:var(--serif);
+}
+.ptc-panel-head p{margin-top:6px;color:var(--p-mut);font-size:11.5px;line-height:1.65}
+.ptc-panel-x{
+  position:absolute;top:14px;right:14px;
+  width:28px;height:28px;border:1px solid var(--p-line);border-radius:8px;
+  background:rgba(255,255,255,.04);color:var(--p-mut);
+  font-size:16px;line-height:1;display:grid;place-items:center;
+}
+.ptc-panel-x:hover{color:var(--p-ink);background:rgba(255,255,255,.08)}
+.ptc-panel-scroll{flex:1;overflow-y:auto;padding:16px 20px 20px;overscroll-behavior:contain}
+.ptc-panel-scroll::-webkit-scrollbar{width:5px}
+.ptc-panel-scroll::-webkit-scrollbar-thumb{background:rgba(255,255,255,.16);border-radius:99px}
+
+.ptc-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}
+.ptc-tag{
+  padding:4px 9px;border:1px solid var(--p-line);border-radius:999px;
+  color:var(--p-mut);font-size:10px;
+}
+.ptc-tag b{color:var(--p-ink);font-weight:650;margin-left:3px}
+
+.ptc-sec{margin-top:16px}
+.ptc-sec h3{
+  display:flex;align-items:center;gap:7px;margin-bottom:8px;
+  color:var(--p-dim);font-size:9.5px;font-weight:650;letter-spacing:.14em;
+}
+.ptc-sec h3::after{content:"";flex:1;height:1px;background:var(--p-line)}
+.ptc-sec p{color:var(--p-mut);font-size:11.5px;line-height:1.72}
+.ptc-formula{
+  margin-top:9px;padding:9px 11px;border-left:2px solid color-mix(in srgb,var(--accent) 70%,transparent);
+  background:rgba(255,255,255,.03);border-radius:0 8px 8px 0;
+  color:var(--p-ink);font-family:var(--mono);font-size:10.5px;line-height:1.65;word-break:break-word;
+}
+.ptc-list{display:flex;flex-direction:column;gap:7px}
+.ptc-item{
+  display:flex;gap:8px;padding:8px 10px;border:1px solid rgba(255,255,255,.06);border-radius:9px;
+  background:rgba(255,255,255,.025);
+}
+.ptc-item .n{
+  flex:0 0 auto;color:var(--accent);font-family:var(--mono);font-size:9px;line-height:1.8;
+}
+.ptc-item b{display:block;font-size:11.5px;font-weight:600;line-height:1.5}
+.ptc-item span{display:block;margin-top:2px;color:var(--p-mut);font-size:10.5px;line-height:1.55}
+.ptc-links{display:flex;flex-wrap:wrap;gap:5px}
+.ptc-link-btn{
+  padding:5px 9px;border:1px solid var(--p-line);border-radius:8px;
+  background:rgba(255,255,255,.03);color:var(--p-mut);font-size:10px;
+  transition:all .2s;text-align:left;
+}
+.ptc-link-btn:hover{color:var(--p-ink);border-color:var(--p-line-2);background:rgba(255,255,255,.07)}
+.ptc-link-btn b{color:var(--p-ink);font-weight:600}
+.ptc-actions{display:flex;gap:7px;margin-top:18px}
+.ptc-btn{
+  flex:1;height:36px;padding:0 12px;border:1px solid var(--p-line);border-radius:9px;
+  background:rgba(255,255,255,.04);color:var(--p-ink);
+  font-size:11px;font-weight:600;letter-spacing:.02em;
+  transition:all .2s;
+}
+.ptc-btn:hover{background:rgba(255,255,255,.08);border-color:var(--p-line-2)}
+.ptc-btn.primary{
+  background:var(--p-lime);border-color:var(--p-lime);color:#0b0f14;
+}
+.ptc-btn.primary:hover{background:#e4fa72;border-color:#e4fa72}
+
+/* 面板里的主干切换 */
+.ptc-family-methods{display:flex;flex-direction:column;gap:5px}
+.ptc-family-methods button{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  padding:8px 10px;border:1px solid rgba(255,255,255,.06);border-radius:8px;
+  background:rgba(255,255,255,.02);color:var(--p-mut);font-size:11px;text-align:left;
+}
+.ptc-family-methods button:hover{color:var(--p-ink);background:rgba(255,255,255,.06)}
+.ptc-family-methods span{color:var(--p-dim);font-family:var(--mono);font-size:9px}
+
+/* ---------- 主页入口卡 ---------- */
+.ptc-banner{
+  position:relative;
+  display:flex;align-items:center;gap:16px;width:100%;
+  padding:16px 18px;margin:0 0 14px;
+  border:1px solid rgba(23,25,20,.16);
+  border-radius:16px;
+  overflow:hidden;
+  text-align:left;
+  color:#eef3f7;
+  background:
+    radial-gradient(420px 120px at 12% 0%,rgba(216,241,90,.16),transparent 65%),
+    radial-gradient(380px 140px at 88% 100%,rgba(94,168,234,.14),transparent 70%),
+    linear-gradient(135deg,#111822,#0a0e14);
+  box-shadow:0 18px 40px -28px rgba(10,14,20,.7);
+  transition:transform .25s ease,box-shadow .25s ease,border-color .25s;
+}
+.ptc-banner:hover{
+  transform:translateY(-2px);
+  border-color:rgba(216,241,90,.42);
+  box-shadow:0 26px 50px -30px rgba(10,14,20,.75);
+}
+.ptc-banner::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(rgba(255,255,255,.16) .6px,transparent .6px);
+  background-size:16px 16px;
+  opacity:.25;
+  mask-image:linear-gradient(90deg,transparent,#000 30%,#000 70%,transparent);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 30%,#000 70%,transparent);
+}
+.ptc-banner .ptc-orb{
+  position:relative;width:46px;height:46px;flex:0 0 auto;border-radius:50%;
+  background:conic-gradient(from 160deg,#d8f15a,#ff7a52,#5ea8ea,#b184e8,#d8f15a);
+  box-shadow:0 0 26px rgba(216,241,90,.35);
+  animation:ptc-spin 18s linear infinite;
+}
+.ptc-banner .ptc-orb::after{
+  content:"";position:absolute;inset:7px;border-radius:50%;
+  background:#0a0e14;box-shadow:inset 0 0 12px rgba(0,0,0,.85);
+}
+.ptc-banner .ptc-orb i{
+  position:absolute;inset:17px;z-index:1;border-radius:50%;
+  background:#d8f15a;box-shadow:0 0 12px #d8f15a;
+}
+.ptc-banner-copy{flex:1;min-width:0;position:relative;z-index:1}
+.ptc-banner-copy b{
+  display:flex;align-items:center;gap:8px;
+  font-size:14px;font-weight:700;letter-spacing:.03em;
+}
+.ptc-banner-copy b em{
+  padding:2px 7px;border:1px solid rgba(216,241,90,.32);border-radius:999px;
+  color:#d8f15a;font-style:normal;font-size:9px;font-weight:600;letter-spacing:.1em;
+}
+.ptc-banner-copy span{
+  display:block;margin-top:4px;color:#9dabbc;font-size:11px;line-height:1.55;
+}
+.ptc-banner-meta{
+  display:block;
+  color:#7f8c9d;font-size:10px;white-space:nowrap;position:relative;z-index:1;
+}
+.ptc-banner-meta b{color:#eef3f7;font-size:16px;font-weight:700;margin-right:2px;font-variant-numeric:tabular-nums}
+.ptc-banner-go{
+  display:inline-flex;align-items:center;gap:6px;flex:0 0 auto;
+  margin-left:6px;padding:8px 13px;border-radius:9px;
+  background:#d8f15a;color:#0b0f14;
+  font-size:11px;font-weight:700;letter-spacing:.03em;
+  position:relative;z-index:1;
+}
+.ptc-banner-go i{font-style:normal;transition:transform .2s}
+.ptc-banner:hover .ptc-banner-go i{transform:translateX(3px)}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:900px){
+  .ptc-left{width:230px}
+  .ptc-panel{width:330px}
+  .ptc-banner-meta{display:none}
+}
+
+@media (max-width:640px){
+  .ptc-head{padding:8px 10px;gap:6px;flex-wrap:nowrap}
+  .ptc-back{height:30px;padding:0 9px;font-size:10px}
+  .ptc-back span{display:none}
+  .ptc-mark{width:26px;height:26px}
+  .ptc-brand b{font-size:13px}
+  .ptc-brand em{display:none}
+  .ptc-count{display:none}
+  .ptc-head-actions{gap:4px;margin-left:auto}
+  .ptc-tool{height:28px;padding:0 8px;font-size:9.5px}
+  .ptc-close{height:28px;width:28px;font-size:16px}
+
+  .ptc-left{
+    top:50px;left:10px;right:10px;width:auto;
+    flex-direction:column;align-items:stretch;gap:5px;
+    overflow:visible;
+  }
+  .ptc-search{flex:none;width:100%;height:32px}
+  .ptc-search kbd{display:none}
+  .ptc-chips{flex-wrap:nowrap;flex:0 0 auto;overflow-x:auto;scrollbar-width:none;padding-bottom:1px}
+  .ptc-chips::-webkit-scrollbar{display:none}
+  .ptc-chip{height:25px;font-size:9.5px;padding:0 8px}
+  .ptc-legend{display:none}
+
+  .ptc-zoom{right:12px;bottom:14px;padding:2px}
+  .ptc-zoom .wide{display:none}
+  .ptc-foot{left:12px;right:60px;bottom:16px;transform:none;align-items:flex-start;text-align:left;font-size:9px}
+  .ptc-foot span:last-child{display:none}
+
+  .ptc-panel{
+    left:10px;right:10px;top:auto;bottom:10px;width:auto;max-height:62vh;
+    transform:translateY(16px);
+  }
+  .ptc-panel-head{padding:15px 16px 12px}
+  .ptc-panel-head h2{font-size:18px}
+  .ptc-panel-scroll{padding:13px 16px 16px}
+
+  .ptc-banner{gap:12px;padding:13px;flex-wrap:wrap}
+  .ptc-banner .ptc-orb{width:38px;height:38px}
+  .ptc-banner .ptc-orb::after{inset:6px}
+  .ptc-banner .ptc-orb i{inset:14px}
+  .ptc-banner-copy b{font-size:12.5px}
+  .ptc-banner-copy span{font-size:10.5px}
+  .ptc-banner-go{padding:7px 10px;font-size:10px;margin-left:0}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .ptc,.ptc-panel,.ptc-banner,.ptc-banner .ptc-orb,.ptc-mark{transition:none;animation:none}
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f2efe6">
+<title>超级树状图 · 16 种赚钱逻辑（含做法 / 闭环 / 职业 / 地域 / 国家文件）</title>
+<meta name="description" content="把 16 种赚钱逻辑摊成一张可缩放的树：4 大类 → 16 条路径 → 做法、完整闭环、职业人群、优势地域、国家文件依据、风险、可连接路径。政策链接直指 gov.cn / npc.gov.cn 原文。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23171914'/%3E%3Cpath d='M14 32h14M32 32V16M32 32v16M32 32h18' stroke='%23d8f15a' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/supertree.css">
+</head>
+<body class="st-body">
+
+<header class="st-top">
+  <a class="st-back" href="index.html">← 全景图</a>
+  <a class="st-back" href="knowledge.html" style="color:#2f6b4f">认知区 →</a>
+  <div class="st-title">赚钱的 <em>16 种逻辑</em> · 超级树</div>
+  <div class="st-meta">
+    <span>路径 <b data-k="methods">16</b></span>
+    <span>做法 <b data-k="practices">88</b></span>
+    <span>国家文件 <b data-k="policies">44</b></span>
+  </div>
+</header>
+
+<div class="st-bar">
+  <button class="st-chip on" data-fam="">全部</button>
+  <button class="st-chip" data-fam="A"><span class="dot" style="background:#d9552f"></span>勤快</button>
+  <button class="st-chip" data-fam="B"><span class="dot" style="background:#2f6b4f"></span>增值</button>
+  <button class="st-chip" data-fam="C"><span class="dot" style="background:#2f5d8a"></span>差异</button>
+  <button class="st-chip" data-fam="D"><span class="dot" style="background:#76508a"></span>借力</button>
+  <span class="st-div"></span>
+  <button class="st-chip on" data-mode="logic">按逻辑</button>
+  <button class="st-chip" data-mode="need">按需求</button>
+  <button class="st-chip" data-mode="drive">按人性</button>
+  <span class="st-sp"></span>
+  <input class="st-search" id="stSearch" type="search" placeholder="搜路径 / 做法 / 职业…" autocomplete="off">
+  <button class="st-act" id="stExpand" data-mode="none">重置</button>
+  <button class="st-chip on" id="stLinksBtn">连接线</button>
+</div>
+
+<main class="st-stage" id="stStage">
+  <div class="st-canvas" id="stCanvas">
+    <svg class="st-links" id="stLinks"></svg>
+    <svg class="st-edges" id="stEdges"></svg>
+    <div class="st-nodes" id="stNodes"></div>
+  </div>
+</main>
+
+<aside class="st-panel" id="stPanel"></aside>
+
+<div class="st-ctrl">
+  <button class="st-cbtn" id="stOut" aria-label="缩小">−</button>
+  <span class="st-scale" id="stScale">100%</span>
+  <button class="st-cbtn" id="stIn" aria-label="放大">＋</button>
+  <button class="st-cbtn wide" id="stFit">适合屏幕</button>
+</div>
+
+<div class="st-hint">点路径卡片展开 7 个组 · 拖动画布 · 滚轮缩放 · 虚线是路径之间的连接</div>
+
+<script src="assets/data.js"></script>
+<script src="assets/data2.js"></script>
+<script src="assets/needs.js"></script>
+<script src="assets/supertree.js"></script>
+</body>
+</html>

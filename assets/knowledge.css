@@ -1,0 +1,104 @@
+/* 认知区 · 100 条世界顶级认知
+   沿用本项目纸感配色 */
+
+.k-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+  -webkit-font-smoothing:antialiased;min-height:100vh}
+
+.k-top{
+  position:sticky;top:0;z-index:30;
+  display:flex;align-items:center;gap:12px;padding:0 18px;height:56px;
+  background:rgba(242,239,230,.94);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.k-back{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);
+  text-decoration:none;padding:5px 10px;border-radius:999px;border:1px solid var(--line)}
+.k-back:hover{color:var(--ink);border-color:var(--line-strong)}
+.k-title{font-family:var(--serif);font-size:16px;font-weight:700;letter-spacing:.5px}
+.k-title em{font-style:normal;color:var(--orange)}
+.k-stat{margin-left:auto;font-size:11px;color:var(--muted);display:flex;gap:12px}
+.k-stat b{color:var(--ink);font-variant-numeric:tabular-nums}
+
+.k-bar{
+  display:flex;align-items:center;gap:8px;padding:10px 18px;flex-wrap:wrap;
+  border-bottom:1px solid var(--line);background:rgba(242,239,230,.86);
+  position:sticky;top:56px;z-index:29;
+}
+.k-chip{font-size:11.5px;padding:4px 11px;border-radius:999px;cursor:pointer;
+  border:1px solid var(--line);background:var(--paper-2);color:var(--muted);white-space:nowrap}
+.k-chip:hover{border-color:var(--line-strong);color:var(--ink)}
+.k-chip.on{background:var(--ink);color:var(--paper-2);border-color:var(--ink)}
+.k-chip i{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;vertical-align:.5px;font-style:normal}
+.k-search{width:170px;font-size:11.5px;padding:5px 11px;border-radius:999px;outline:none;
+  border:1px solid var(--line);background:var(--paper-2);color:var(--ink);font-family:var(--sans)}
+.k-search:focus{border-color:var(--line-strong)}
+.k-sp{flex:1 1 auto}
+.k-count{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.k-intro{padding:16px 18px 4px;max-width:1100px;margin:0 auto}
+.k-intro p{font-size:12.5px;line-height:1.7;color:var(--muted);margin:0 0 8px}
+.k-tiers{display:flex;gap:14px;flex-wrap:wrap;font-size:10.5px;color:var(--muted)}
+.k-tiers span{display:inline-flex;align-items:center;gap:5px}
+.k-tiers b{font-weight:650;color:var(--ink)}
+
+.k-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:12px;padding:14px 18px 60px;max-width:1100px;margin:0 auto}
+
+.k-card{
+  border:1px solid var(--line);border-radius:14px;background:var(--paper-2);
+  padding:13px 14px 12px;cursor:pointer;position:relative;overflow:hidden;
+  transition:border-color .18s,transform .18s,box-shadow .18s;
+}
+.k-card:hover{border-color:var(--line-strong);transform:translateY(-1px);box-shadow:var(--shadow-soft)}
+.k-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c)}
+.k-no{font-family:var(--mono);font-size:9.5px;color:var(--muted-2);font-variant-numeric:tabular-nums}
+.k-name{font-family:var(--serif);font-size:15px;font-weight:700;line-height:1.3;margin:2px 0 5px}
+.k-def{font-size:12px;line-height:1.55;color:var(--ink-2)}
+.k-use{font-size:11.5px;line-height:1.55;color:var(--muted);margin-top:7px;
+  padding-top:7px;border-top:1px dashed var(--line)}
+.k-use::before{content:"怎么用 · ";color:var(--muted-2)}
+.k-foot{display:flex;align-items:center;gap:6px;margin-top:8px}
+.k-tag{font-size:9.5px;padding:1.5px 7px;border-radius:4px;color:var(--muted);
+  background:var(--paper-3)}
+.k-tag.acad{color:#2f6b4f;background:rgba(47,107,79,.10)}
+.k-tag.exp{color:#c2762a;background:rgba(194,118,42,.10)}
+.k-tag.folk{color:#b4453a;background:rgba(180,69,58,.10)}
+.k-cat{margin-left:auto;font-size:9.5px;color:var(--c)}
+
+/* 详情抽屉 */
+.k-sheet{
+  position:fixed;right:0;top:0;bottom:0;width:min(460px,92vw);z-index:60;
+  background:var(--paper-2);border-left:1px solid var(--line-strong);
+  transform:translateX(102%);transition:transform .28s cubic-bezier(.2,.8,.2,1);
+  display:flex;flex-direction:column;box-shadow:-20px 0 50px rgba(31,30,20,.10);
+}
+.k-sheet.on{transform:none}
+.k-sheet-head{padding:16px 18px 12px;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:flex-start}
+.k-sheet-no{font-family:var(--mono);font-size:11px;color:var(--paper-2);background:var(--ink);
+  padding:2px 7px;border-radius:5px;flex:0 0 auto}
+.k-sheet-t{font-family:var(--serif);font-size:20px;font-weight:700;line-height:1.25}
+.k-x{margin-left:auto;width:26px;height:26px;border-radius:50%;flex:0 0 auto;cursor:pointer;
+  border:1px solid var(--line);background:transparent;color:var(--muted);font-size:13px}
+.k-x:hover{color:var(--ink);border-color:var(--line-strong)}
+.k-sheet-body{padding:14px 18px 60px;overflow-y:auto;flex:1 1 auto}
+.k-sec{margin-bottom:16px}
+.k-sec h4{font-size:11px;letter-spacing:1.4px;color:var(--muted);font-weight:600;margin:0 0 7px;
+  display:flex;align-items:center;gap:7px}
+.k-sec h4::after{content:"";flex:1 1 auto;height:1px;background:var(--line)}
+.k-sec p{margin:0;font-size:13px;line-height:1.75;color:var(--ink-2)}
+.k-big{font-size:14.5px;line-height:1.8}
+.k-warn{font-size:11.5px;line-height:1.7;color:var(--muted);background:var(--paper-3);
+  border-left:3px solid var(--line-strong);padding:9px 11px;border-radius:0 8px 8px 0}
+.k-scrim{position:fixed;inset:0;background:rgba(23,25,20,.28);z-index:59;opacity:0;
+  pointer-events:none;transition:opacity .25s}
+.k-scrim.on{opacity:1;pointer-events:auto}
+
+.k-empty{grid-column:1/-1;text-align:center;padding:60px 0;color:var(--muted);font-size:12.5px}
+
+@media (max-width:640px){
+  .k-stat{display:none}
+  .k-grid{grid-template-columns:1fr;padding:12px 14px 50px}
+  .k-intro{padding:12px 14px 0}
+  .k-bar{padding:8px 14px}
+  .k-search{width:130px}
+  .k-sheet{width:100vw}
+}
